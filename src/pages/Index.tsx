@@ -1,178 +1,124 @@
-import { useState } from "react";
+import ProductCard from "@/components/ProductCard";
+import OrderForm from "@/components/OrderForm";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Checkbox } from "@/components/ui/checkbox";
-import telefonkortImage from "@/assets/telefonkort.png";
+import { User, Settings } from "lucide-react";
 
 const Index = () => {
-  const [quantity, setQuantity] = useState(1);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [discountCode, setDiscountCode] = useState("");
-  const [donation, setDonation] = useState(false);
-
   const price = 150;
   const stock = 7;
 
-  const handlePurchase = () => {
-    // Här skulle betalningslogik implementeras
-    console.log("Beställning:", {
-      quantity,
-      name,
-      email,
-      discountCode,
-      donation,
-      totalPrice: price * quantity + (donation ? 10 : 0)
-    });
-  };
-
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-gradient-header text-primary-foreground py-4 px-6">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-bold">Telefonkort – 100 markeringar</h1>
-          <Button variant="secondary" size="sm">
-            Logga in
-          </Button>
+    <div className="min-h-screen bg-background font-body">
+      {/* Navigation Header */}
+      <nav className="bg-gradient-hero text-primary-foreground shadow-xl relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/5"></div>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 py-4">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center space-x-4">
+              <h1 className="text-2xl font-bold font-display">TelefonKort.se</h1>
+              <Badge variant="secondary" className="hidden sm:block">
+                Premium leverantör
+              </Badge>
+            </div>
+            <div className="flex items-center space-x-3">
+              <Button variant="glass" size="sm">
+                <User className="w-4 h-4 mr-2" />
+                Logga in
+              </Button>
+              <Button variant="ghost" size="sm" className="text-primary-foreground/80 hover:text-primary-foreground">
+                <Settings className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
         </div>
-      </header>
+      </nav>
 
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto p-6">
-        <Card className="shadow-card overflow-hidden">
-          <CardContent className="p-0">
-            <div className="grid md:grid-cols-2 gap-0">
-              {/* Product Image */}
-              <div className="bg-gradient-to-br from-muted to-muted/50 p-8 flex items-center justify-center">
-                <img
-                  src={telefonkortImage}
-                  alt="Telefonkort 100 markeringar"
-                  className="max-w-full h-auto rounded-lg shadow-lg"
-                />
+      <main className="max-w-7xl mx-auto px-6 py-12">
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
+          {/* Left Column - Product Card */}
+          <div className="space-y-8">
+            <ProductCard />
+            
+            {/* Additional Info Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="p-6 rounded-2xl bg-success/10 border border-success/20">
+                <div className="text-success font-semibold mb-2">✅ Säkert & Pålitligt</div>
+                <p className="text-sm text-muted-foreground">
+                  Använd av tusentals kunder dagligen. Certifierad leverantör sedan 2015.
+                </p>
               </div>
-
-              {/* Product Info & Form */}
-              <div className="p-8 space-y-6">
-                {/* Delivery Badge */}
-                <Badge className="bg-accent text-accent-foreground px-4 py-2 text-sm font-medium">
-                  ⚡️ Automatisk leverans inom 30 sekunder
-                </Badge>
-
-                {/* Product Title */}
-                <div>
-                  <h2 className="text-3xl font-bold text-foreground mb-2">
-                    Telefonkort 100 markeringar
-                  </h2>
-                  <p className="text-muted-foreground">
-                    Snabb leverans och trygg betalning.
-                  </p>
-                </div>
-
-                {/* Price & Stock */}
-                <div className="space-y-2">
-                  <div className="text-2xl font-bold text-primary">
-                    {price} kr/st
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <span>📦</span>
-                    <span>Kort i lager: {stock}</span>
-                  </div>
-                </div>
-
-                {/* Order Form */}
-                <div className="space-y-4">
-                  <div>
-                    <Label htmlFor="quantity">Antal kort</Label>
-                    <Input
-                      id="quantity"
-                      type="number"
-                      min="1"
-                      max={stock}
-                      value={quantity}
-                      onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                      className="mt-1"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="name">Namn</Label>
-                    <Input
-                      id="name"
-                      placeholder="Ditt namn"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="mt-1"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="email">E-post (digitalt kvitto)</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="Din e-post"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="mt-1"
-                    />
-                  </div>
-
-                  <div>
-                    <Label htmlFor="discount">Rabattkod (valfritt)</Label>
-                    <Input
-                      id="discount"
-                      placeholder="Ange rabattkod"
-                      value={discountCode}
-                      onChange={(e) => setDiscountCode(e.target.value)}
-                      className="mt-1"
-                    />
-                  </div>
-
-                  {/* Donation Checkbox */}
-                  <div className="flex items-center space-x-3">
-                    <Checkbox
-                      id="donation"
-                      checked={donation}
-                      onCheckedChange={(checked) => setDonation(checked === true)}
-                    />
-                    <Label htmlFor="donation" className="text-sm">
-                      Hjälp oss att hålla sidan vid liv (10kr) ❤️
-                    </Label>
-                  </div>
-
-                  {/* Total Price */}
-                  {(quantity > 1 || donation) && (
-                    <div className="pt-4 border-t border-border">
-                      <div className="text-right space-y-1 text-sm">
-                        <div>Kort: {quantity} × {price} kr = {quantity * price} kr</div>
-                        {donation && <div>Donation: 10 kr</div>}
-                        <div className="font-bold text-lg">
-                          Totalt: {quantity * price + (donation ? 10 : 0)} kr
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Purchase Button */}
-                  <Button 
-                    variant="telefonkort" 
-                    size="lg" 
-                    className="w-full text-lg font-semibold"
-                    onClick={handlePurchase}
-                    disabled={!name || !email}
-                  >
-                    Köp nu
-                  </Button>
-                </div>
+              
+              <div className="p-6 rounded-2xl bg-accent/10 border border-accent/20">
+                <div className="text-accent font-semibold mb-2">⚡ Blixtnabb Leverans</div>
+                <p className="text-sm text-muted-foreground">
+                  Automatisk leverans till din e-post inom 30 sekunder efter betalning.
+                </p>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+
+          {/* Right Column - Order Form */}
+          <div className="lg:sticky lg:top-8">
+            <OrderForm price={price} stock={stock} />
+          </div>
+        </div>
+
+        {/* Trust Signals */}
+        <section className="mt-20 text-center">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl font-bold font-display mb-8">Varför välja oss?</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="p-8 rounded-2xl bg-gradient-card shadow-lg floating-card">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">🛡️</span>
+                </div>
+                <h3 className="font-semibold text-lg mb-3">Trygg Betalning</h3>
+                <p className="text-muted-foreground">
+                  SSL-krypterad betalning via Stripe. Dina uppgifter är alltid skyddade.
+                </p>
+              </div>
+
+              <div className="p-8 rounded-2xl bg-gradient-card shadow-lg floating-card">
+                <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">⚡</span>
+                </div>
+                <h3 className="font-semibold text-lg mb-3">Omedelbar Leverans</h3>
+                <p className="text-muted-foreground">
+                  Få din kod direkt i e-postkorgen inom 30 sekunder efter köpet.
+                </p>
+              </div>
+
+              <div className="p-8 rounded-2xl bg-gradient-card shadow-lg floating-card">
+                <div className="w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-2xl">💎</span>
+                </div>
+                <h3 className="font-semibold text-lg mb-3">Premium Kvalitet</h3>
+                <p className="text-muted-foreground">
+                  Äkta telefonkort med full garanti. Fungerar på alla svenska nät.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
+
+      {/* Footer */}
+      <footer className="bg-gradient-to-r from-muted to-muted/50 mt-20 py-12 border-t">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <p className="text-muted-foreground mb-4">
+            © 2024 TelefonKort.se - Premium leverantör av svenska telefonkort
+          </p>
+          <div className="flex justify-center space-x-6 text-sm text-muted-foreground">
+            <a href="#" className="hover:text-primary transition-colors">Villkor</a>
+            <a href="#" className="hover:text-primary transition-colors">Integritet</a>
+            <a href="#" className="hover:text-primary transition-colors">Support</a>
+            <a href="#" className="hover:text-primary transition-colors">Kontakt</a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
